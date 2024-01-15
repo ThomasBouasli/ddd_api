@@ -1,7 +1,6 @@
 import { z } from "zod"
 import { IUseCase, IController } from "domain-utilities"
-import { Repository } from "typeorm"
-import { Course } from "../../infra/database/entities/course";
+import { PrismaClient } from "@prisma/client";
 
 interface CreateCourseRequest {
     name: string,
@@ -13,14 +12,12 @@ interface ICreateCourseUC extends IUseCase<CreateCourseRequest, CreateCourseResp
 
 export class CreateCourseService implements ICreateCourseUC {
 
-    constructor(private readonly repo: Repository<Course>) { }
+    constructor(private readonly prisma: PrismaClient) { }
 
     async execute(request: CreateCourseRequest) {
         const { name } = request;
 
-        const course = this.repo.create({ name })
-
-        await this.repo.save(course)
+        const course = await this.prisma.course.create({ data: { name } })
 
         console.log(`Created Course with name ${name} and id ${course.id}!`)
     }

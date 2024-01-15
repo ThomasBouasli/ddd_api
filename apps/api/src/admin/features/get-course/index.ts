@@ -1,7 +1,6 @@
 import { z } from "zod"
 import { IUseCase, IController } from "domain-utilities"
-import { Repository } from "typeorm"
-import { Course } from "../../infra/database/entities/course";
+import { PrismaClient } from "@prisma/client";
 
 
 interface GetCourseRequest {
@@ -14,12 +13,12 @@ interface IGetCourseUC extends IUseCase<GetCourseRequest, GetCourseResponse> { }
 
 export class GetCourseService implements IGetCourseUC {
 
-    constructor(private readonly repo: Repository<Course>) { }
+    constructor(private readonly prisma: PrismaClient) { }
 
     async execute(request: GetCourseRequest) {
         const { id } = request;
 
-        const course = await this.repo.findOne({ where: { id } })
+        const course = await this.prisma.course.findUnique({ where: { id } })
 
         if (!course) {
             console.log(`Did not find Course with id ${id}!`)
