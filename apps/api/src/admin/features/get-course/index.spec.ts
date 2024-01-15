@@ -11,8 +11,13 @@ describe("GetCourse Feature", () => {
 
         const found_course = await sut_service.execute({ id: course.id })
 
-
         expect(found_course).toBeDefined()
         expect(found_course?.name).toBe(course.name)
+    })
+
+    it("should not get a course by id if it does not exist", async () => {
+        const found_course = await sut_service.execute({ id: faker.string.uuid() })
+
+        expect(found_course).toBeDefined()
     })
 })
