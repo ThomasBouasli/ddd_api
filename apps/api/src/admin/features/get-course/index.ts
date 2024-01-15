@@ -9,11 +9,11 @@ interface GetCourseRequest {
 
 type GetCourseResponse = { name: string } | null;
 
-interface IGetCourseUC extends IUseCase<GetCourseRequest, GetCourseResponse> { }
+interface IGetCourseUC extends IUseCase<GetCourseRequest, GetCourseResponse> {}
 
 @injectable()
 export class GetCourseService implements IGetCourseUC {
-  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) { }
+  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) {}
 
   async execute(request: GetCourseRequest) {
     const { id } = request;
@@ -34,11 +34,13 @@ const schema = z.object({
   id: z.string().uuid(),
 });
 
-interface IGetCourseController extends IController<Request, Response> { }
+interface IGetCourseController extends IController<Request, Response> {}
 
 @injectable()
 export class GetCourseController implements IGetCourseController {
-  constructor(@inject("GetCourseService") private readonly service: GetCourseService) { }
+  constructor(
+    @inject("GetCourseService") private readonly service: GetCourseService,
+  ) {}
 
   execute(request: Request): Response | Promise<Response> {
     const { body } = request;

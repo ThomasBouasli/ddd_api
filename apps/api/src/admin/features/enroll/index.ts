@@ -25,11 +25,11 @@ interface EnrollRequest {
 
 type EnrollResponse = void;
 
-interface IEnrollUC extends IUseCase<EnrollRequest, EnrollResponse> { }
+interface IEnrollUC extends IUseCase<EnrollRequest, EnrollResponse> {}
 
 @injectable()
 export class EnrollService implements IEnrollUC {
-  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) { }
+  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) {}
 
   async execute(request: EnrollRequest) {
     const { course_id, name } = request;
@@ -70,11 +70,13 @@ const schema = z.object({
   course_id: z.string().uuid(),
 });
 
-interface IEnrollController extends IController<Request, Response> { }
+interface IEnrollController extends IController<Request, Response> {}
 
 @injectable()
 export class EnrollController implements IEnrollController {
-  constructor(@inject("EnrollService") private readonly service: EnrollService) { }
+  constructor(
+    @inject("EnrollService") private readonly service: EnrollService,
+  ) {}
 
   execute(request: Request): Response | Promise<Response> {
     const { body } = request;

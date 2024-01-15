@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
+import { container } from "tsyringe";
 import { describe, expect, it } from "vitest";
 
 import { prisma } from "@/infra/db/prisma";
 
 import { GetCourseService } from ".";
-import { container } from "tsyringe";
 
 describe("GetCourse Feature", () => {
   const sut_service = container.resolve(GetCourseService);

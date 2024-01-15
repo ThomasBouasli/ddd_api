@@ -4,8 +4,8 @@ import { PrismaClient } from "@prisma/client";
 import Express from "express";
 import { container } from "tsyringe";
 
-import { prisma } from "@/infra/db/prisma";
 import { CreateCourseControllerExpress } from "@/admin/features/create-course";
+import { prisma } from "@/infra/db/prisma";
 
 container.register<PrismaClient>("PrismaClient", {
   useValue: prisma,
