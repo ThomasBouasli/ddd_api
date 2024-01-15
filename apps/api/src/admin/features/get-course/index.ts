@@ -1,3 +1,4 @@
+import { ExpressControllerAdapter } from "@/infra/server/express-adapter";
 import { PrismaClient } from "@prisma/client";
 import { IController, IUseCase } from "domain-utilities";
 import { inject, injectable } from "tsyringe";
@@ -9,11 +10,11 @@ interface GetCourseRequest {
 
 type GetCourseResponse = { name: string } | null;
 
-interface IGetCourseUC extends IUseCase<GetCourseRequest, GetCourseResponse> {}
+interface IGetCourseUC extends IUseCase<GetCourseRequest, GetCourseResponse> { }
 
 @injectable()
 export class GetCourseService implements IGetCourseUC {
-  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) {}
+  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) { }
 
   async execute(request: GetCourseRequest) {
     const { id } = request;
@@ -34,13 +35,13 @@ const schema = z.object({
   id: z.string().uuid(),
 });
 
-interface IGetCourseController extends IController<Request, Response> {}
+interface IGetCourseController extends IController<Request, Response> { }
 
 @injectable()
 export class GetCourseController implements IGetCourseController {
   constructor(
-    @inject("GetCourseService") private readonly service: GetCourseService,
-  ) {}
+    @inject(GetCourseService) private readonly service: GetCourseService,
+  ) { }
 
   execute(request: Request): Response | Promise<Response> {
     const { body } = request;
@@ -50,5 +51,14 @@ export class GetCourseController implements IGetCourseController {
     this.service.execute(data);
 
     return new Response();
+  }
+}
+
+@injectable()
+export class GetCourseControllerExpress extends ExpressControllerAdapter {
+  constructor(
+    @inject(GetCourseController) controller: GetCourseController,
+  ) {
+    super(controller);
   }
 }

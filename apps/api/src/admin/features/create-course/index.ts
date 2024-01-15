@@ -12,11 +12,11 @@ interface CreateCourseRequest {
 type CreateCourseResponse = void;
 
 interface ICreateCourseUC
-  extends IUseCase<CreateCourseRequest, CreateCourseResponse> {}
+  extends IUseCase<CreateCourseRequest, CreateCourseResponse> { }
 
 @injectable()
 export class CreateCourseService implements ICreateCourseUC {
-  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) {}
+  constructor(@inject("PrismaClient") private readonly prisma: PrismaClient) { }
 
   async execute(request: CreateCourseRequest) {
     const { name } = request;
@@ -31,14 +31,14 @@ const schema = z.object({
   name: z.string(),
 });
 
-interface ICreateCourseController extends IController<Request, Response> {}
+interface ICreateCourseController extends IController<Request, Response> { }
 
 @injectable()
 export class CreateCourseController implements ICreateCourseController {
   constructor(
-    @inject("CreateCourseService")
+    @inject(CreateCourseService)
     private readonly service: CreateCourseService,
-  ) {}
+  ) { }
 
   execute(request: Request): Response | Promise<Response> {
     const { body } = request;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd src/admin",
+    "dev": "tsnd -r tsconfig-paths/register src/admin",
     "test": "vitest"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "prettier": "^3.2.2",
     "prisma": "^5.8.1",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.0"
   },
